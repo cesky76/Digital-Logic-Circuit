@@ -1,0 +1,51 @@
+module full_adder (
+    input A, // 입력 A
+    input B, // 입력 B
+    input Cin, // Carry 입력
+    output Sum, // 합 출력
+    output Cout // Carry 출력
+);
+
+assign {Sum, Cout} = A + B + Cin;
+
+endmodule
+
+module test_bench;
+
+reg A;
+reg B;
+reg Cin;
+wire Sum;
+wire Cout;
+
+full_adder UUT (
+    .A(A),
+    .B(B),
+    .Cin(Cin),
+    .Sum(Sum),
+    .Cout(Cout)
+);
+
+initial begin
+    // 테스트 케이스 설정
+    A = 1'b0; B = 1'b0; Cin = 0;
+    #10;
+    A = 1'b1; B = 1'b0; Cin = 0;
+    #10;
+    A = 1'b0; B = 1'b1; Cin = 0;
+    #10;
+    A = 1'b1; B = 1'b1; Cin = 0;
+    #10;
+    // Carry 입력이 1인 경우
+    A = 1'b0; B = 1'b0; Cin = 1;
+    #10;
+    A = 1'b1; B = 1'b0; Cin = 1;
+    #10;
+    A = 1'b0; B = 1'b1; Cin = 1;
+    #10;
+    A = 1'b1; B = 1'b1; Cin = 1;
+    #10;
+    
+end
+
+endmodule
