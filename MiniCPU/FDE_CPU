@@ -1,0 +1,56 @@
+module simple_cpu (
+    input clk,       
+    input reset,      
+    output reg [7:0] data_out 
+);
+
+// 레지스터 및 상수 정의
+reg [7:0] pc;       
+reg [7:0] inst;    
+reg [7:0] regA;     
+reg [7:0] regB;    
+reg [7:0] result;  
+
+// 명령어 세트 정의
+localparam ADD = 8'd0;
+localparam SUB = 8'd1;
+localparam AND = 8'd2;
+localparam OR  = 8'd3;
+
+// 명령어 메모리 정의
+reg [7:0] mem [0:255]; // 메모리는 256바이트
+
+// Fetch 단계
+always @(posedge clk or posedge reset) begin
+    if (reset) begin
+        pc <= 8'd0;
+    end else begin
+        pc <= pc + 1;
+        inst <= mem[pc];
+    end
+end
+
+// Decode 및 Execute 단계
+always @(posedge clk or posedge reset) begin
+    if (reset) begin
+        regA <= 8'd0;
+        regB <= 8'd0;
+        result <= 8'd0;
+    end else begin
+        case (inst)
+            ADD: result <= regA + regB;
+            SUB: result <= regA - regB;
+            AND: result <= regA & regB;
+            OR:  result <= regA | regB;
+            default: result <= 8'd0; // 인식하지 못하는 명령어인 경우 결과를 0으로 설정
+        endcase
+    end
+end
+
+// 데이터 출력
+always @(*) begin
+    data_out = result;
+end
+
+endmodule
+
