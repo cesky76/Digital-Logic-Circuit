@@ -1,0 +1,49 @@
+module test_bench;
+
+reg clk;
+reg reset;
+wire [7:0] data_out;
+
+// simple_cpu 모듈 인스턴스화
+simple_cpu UUT (
+    .clk(clk),
+    .reset(reset),
+    .data_out(data_out)
+);
+
+// 클럭 생성
+always #5 clk = ~clk;
+
+// 초기화
+initial begin
+    clk = 0;
+    reset = 1;
+    #10 reset = 0;
+end
+
+// 메모리 초기화
+initial begin
+    mem_init();
+end
+
+// 메모리 초기화 함수
+function automatic void mem_init;
+    integer i;
+    for (i = 0; i < 256; i = i + 1) begin
+        mem[i] = 8'h00;
+    end
+    // 간단한 테스트 명령어 추가
+    mem[0] = 8'd0; // ADD 명령어 (레지스터 A와 B를 더함)
+    mem[1] = 8'h05; // 값 5를 레지스터 B에 저장
+    mem[2] = 8'd2; // AND 명령어 (레지스터 A와 B를 AND 연산)
+endfunction
+
+// 데이터 출력 모니터링
+always @(posedge clk) begin
+    $display("data_out = %h", data_out);
+end
+
+// 시뮬레이션 시간 제한
+initial #1000 $finish;
+
+endmodule
