@@ -21,7 +21,7 @@ datapath out(
         #4 DA=3'b100; BA = 3'b110; MB = 0; FS=4'b1110; MD = 0; RW = 1;
         #2 DA = 3'b111; AA = 3'b111; MB = 0; FS = 4'b0001; MD = 0; RW = 1;
         #2 DA = 3'b001; AA = 3'b000; MB = 1; FS=4'b0010; MD = 0; RW = 1; BA = 3'b010;
-        #2 BA = 3'b011; MB = 0; RW=0
+        #2 BA = 3'b011; MB = 0; RW=0;
         #2 DA = 3'b100; MD = 1; RW = 1; Datain = 16'd5;
         #2 DA = 3'b101; AA = 3'b000; BA = 3'b000; MB=0; FS=4'b101; MD = 0; RW = 1;
         #2
